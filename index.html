@@ -6,37 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script type="text/javascript">
-        (function() {
-            // There's nothing to do for older browsers ;)
-            if (!window.addEventListener)
-                return;
-            var blockPopstateEvent = document.readyState!="complete";
-            window.addEventListener("load", function() {
-                alert('onload');
-                alert('blockPopstateEvent :' + blockPopstateEvent);
-                // The timeout ensures that popstate-events will be unblocked right
-                // after the load event occured, but not in the same event-loop cycle.
-                setTimeout(function(){ blockPopstateEvent = false; }, 0);
-            }, false);
-            window.addEventListener("popstate", function(evt) {
-                if (blockPopstateEvent && document.readyState=="complete") {
-                    alert('preventPopState');
-                    evt.preventDefault();
-                    evt.stopImmediatePropagation();
-                }
-            }, false);
-        })();
+
         
         
         document.addEventListener('DOMContentLoaded', function(){
             alert('ready');
             history.pushState('', null, null);
+            var prevent = false;
             window.onpopstate = function(event){
+                alert('prevent :' + prevent);
+                if(prevent) return;
                 var container = document.getElementById("container");
                 addDiv(event,null, container);
                 alert(event);
                 alert('My popstate');
-            };
+            }
+            window.onpageshow = function(event) {
+                alert('onpageshow : ' + event.persisted);
+                if(window.performance){
+                    alert(window.performance.navigation.type);
+                }
+                
+                if ( event.persisted || window.performance && window.performance.navigation.type == 2)) {
+                    alert('preventPopState');
+                    prevent = true;
+                }
+            }
         });
 
         function addDiv(text, id, container){
