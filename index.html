@@ -8,9 +8,9 @@
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(){
             history.pushState('', null, null);
-            window.popstate(function(){
+            window.popstate = function(){
                 alert('popstate');
-            });
+            };
         });
 
         function addDiv(text, id, container){
