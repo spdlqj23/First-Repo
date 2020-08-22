@@ -8,7 +8,7 @@
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(){
             history.pushState('', null, null);
-            window.popstate = function(){
+            window.onpopstate = function(){
                 alert('popstate');
             };
         });
@@ -47,7 +47,7 @@
 </head>
 <body>
     <p>test</p>
-    <a href="www.naver.com">NAVER</a>
+    <a href="https://www.naver.com">NAVER</a>
     <button onclick="fn_test()">test button</button>
     <button onclick="fn_clear()">clear</button>
     <div id="container"></div>
