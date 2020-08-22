@@ -7,8 +7,10 @@
     <title>Document</title>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(){
+            alert('ready');
             history.pushState('', null, null);
-            window.onpopstate = function(){
+            window.onpopstate = function(event){
+                alert(event);
                 alert('popstate');
             };
         });
