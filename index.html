@@ -15,7 +15,10 @@
             var prevent = false;
             window.onpopstate = function(event){
                 alert('prevent :' + prevent);
-                if(prevent) return;
+                if(prevent) {
+                    prevent = true;
+                    return;
+                }
                 var container = document.getElementById("container");
                 addDiv(event,null, container);
                 alert(event);
