@@ -32,6 +32,8 @@
             alert('ready');
             history.pushState('', null, null);
             window.onpopstate = function(event){
+                var container = document.getElementById("container");
+                addDiv(event,null, container);
                 alert(event);
                 alert('My popstate');
             };
@@ -71,7 +73,7 @@
 </head>
 <body>
     <p>test</p>
-    <a href="https://www.naver.com">NAVER</a>
+    <div><a href="https://www.naver.com">NAVER</a></div>
     <button onclick="fn_test()">test button</button>
     <button onclick="fn_clear()">clear</button>
     <div id="container"></div>
