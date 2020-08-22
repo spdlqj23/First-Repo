@@ -6,12 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script type="text/javascript">
+        (function() {
+            // There's nothing to do for older browsers ;)
+            if (!window.addEventListener)
+                return;
+            var blockPopstateEvent = document.readyState!="complete";
+            window.addEventListener("load", function() {
+                alert('onload');
+                alert('blockPopstateEvent :' + blockPopstateEvent);
+                // The timeout ensures that popstate-events will be unblocked right
+                // after the load event occured, but not in the same event-loop cycle.
+                setTimeout(function(){ blockPopstateEvent = false; }, 0);
+            }, false);
+            window.addEventListener("popstate", function(evt) {
+                if (blockPopstateEvent && document.readyState=="complete") {
+                    alert('preventPopState');
+                    evt.preventDefault();
+                    evt.stopImmediatePropagation();
+                }
+            }, false);
+        })();
+        
+        
         document.addEventListener('DOMContentLoaded', function(){
             alert('ready');
             history.pushState('', null, null);
             window.onpopstate = function(event){
                 alert(event);
-                alert('popstate');
+                alert('My popstate');
             };
         });
 
